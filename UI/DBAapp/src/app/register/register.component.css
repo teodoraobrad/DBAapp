@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+.register-card {
+  max-width: 1100px;
+  width: 100%;
+  background-color: rgba(33, 37, 41, 0.95);
+  border: none;
+  border-radius: 12px;
+  color: #ffffff;
+}
+
+.register-left {
+  flex: 1;
+  min-width: 250px;
+}
+
+.register-left h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.register-left p, .register-left ul {
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.register-left ul {
+  list-style: square;
+  padding-left: 1.2rem;
+}
+
+.register-right {
+  flex: 2;
+}
+
+.btn-accent {
+  background-color: #4a90e2;
+  border: none;
+  color: #fff;
+}
+
+.btn-accent:hover {
+  background-color: #357abd;
+}
+
+.register-card .form-control,
+.register-card .form-select {
+  background-color: #2b2f3a;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.register-card .form-control::placeholder {
+  color: #bbb;
+}
+
+.register-card .form-control:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.3);
+}

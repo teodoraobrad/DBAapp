@@ -1,0 +1,69 @@
+<div class="mb-4">
+    
+    <div id="notifications-container" class="list-group">
+     
+      <div class="about-me-wrapper container mt-5">
+  <h2 class="text-center mb-4">Informacije o nalogu</h2>
+
+  <form (ngSubmit)="sacuvaj()">
+    <div class="form-group mb-3">
+      <label>Korisničko ime</label>
+      <input [(ngModel)]="korisnik.korisnickoIme" name="korisnickoIme" class="form-control" disabled />
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Ime</label>
+      <input [(ngModel)]="korisnik.ime" name="ime" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Prezime</label>
+      <input [(ngModel)]="korisnik.prezime" name="prezime" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Email</label>
+      <input [(ngModel)]="korisnik.email" name="email" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Telefon</label>
+      <input [(ngModel)]="korisnik.telefon" name="telefon" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+      <label>JMBG</label>
+      <input [(ngModel)]="korisnik.jmbg" name="jmbg" class="form-control"  />
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Tim</label>
+      <input [(ngModel)]="korisnik.tim" name="tim" class="form-control" disabled />
+    </div>
+
+
+ <div class="form-group mb-3">
+      <label>Datum registracije</label>
+      <input  type="datetime-local" [(ngModel)]="korisnik.datumRegistracije" name="datumRegistracije" class="form-control" disabled />
+    </div>
+
+    <div class="form-group mb-4">
+      <label>Poslednja prijava</label>
+      <input  type="datetime"  [(ngModel)]="korisnik.poslednjaPrijava" name="poslednjaPrijava" class="form-control" disabled />
+    </div>
+
+    <button type="submit" class="btn btn-accent" [disabled]="isSaving">
+      {{ isSaving ? 'Čuvanje...' : 'Sačuvaj promene' }}
+    </button>
+
+    <div *ngIf="saveSuccess" class="alert alert-success mt-3" role="alert">
+      Podaci su uspešno sačuvani!
+    </div>
+  </form>
+</div>
+
+
+
+
+    </div>
+  </div>

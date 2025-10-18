@@ -1,0 +1,83 @@
+<div class="app-wrapper p-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="page-title">Zahtevi za reset lozinke</h2>
+  </div>
+
+  <table class="onduty-table" style="max-width: 800px;">
+    <thead>
+      <tr>
+        <th>Korisničko ime</th>
+        <th>Datum zahteva</th>
+        <th>Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of logovi">
+        <td>{{ log.KorisnickoIme }}</td>
+        <td>{{ log.DatumZahteva | date:'dd.MM.yyyy HH:mm' }}</td>
+        <td>{{ log.EmailPoslat ? 'DA' : 'NE' }}</td>
+        <td>
+          <button class="btn-add special-btn" (click)="potvrdiIzvrsenje(log)">✔️</button>
+          <button class="btn-delete" (click)="obrisiZahtev(log)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+<h2 class="page-title mt-5">Neaktivni korisnici</h2>
+<table class="onduty-table mb-5" style="max-width: 1000px;">
+  <thead>
+    <tr>
+      <th>Korisničko ime</th>
+      <th>Ime</th>
+      <th>Prezime</th>
+      <th>Email</th>
+      <th>Tim</th>
+      <th>Akcija</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of neaktivniKorisnici">
+      <td>{{ user.korisnickoIme }}</td>
+      <td>{{ user.ime }}</td>
+      <td>{{ user.prezime }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.tim }}</td>
+      <td>
+        <button class="btn-add special-btn" (click)="aktivirajKorisnika(user)">✔️</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 class="page-title">Aktivni korisnici</h2>
+<table class="onduty-table" style="max-width: 1000px;">
+  <thead>
+    <tr>
+      <th>Korisničko ime</th>
+      <th>Ime</th>
+      <th>Prezime</th>
+      <th>Email</th>
+      <th>Tim</th>
+      <th>Datum registracije</th>
+      <th>Poslednja prijava</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of aktivniKorisnici">
+      <td>{{ user.korisnickoIme }}</td>
+      <td>{{ user.ime }}</td>
+      <td>{{ user.prezime }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.tim }}</td>
+      <td>{{ user.datumRegistracije | date:'dd.MM.yyyy' }}</td>
+      <td>{{ user.poslednjaPrijava | date:'dd.MM.yyyy HH:mm' }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+</div>

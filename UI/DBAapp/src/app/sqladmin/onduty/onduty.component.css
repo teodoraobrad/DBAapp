@@ -1,0 +1,120 @@
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+}
+
+.btn-add {
+  background: #4cafef;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.btn-add:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.table-title {
+  margin-bottom: 0.6rem;
+  font-size: 1.2rem;
+  color: #eee;
+}
+
+.onduty-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(0,0,0,0.35);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+.onduty-table th, 
+.onduty-table td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+}
+.onduty-table thead {
+  background: rgba(0,0,0,0.5);
+}
+.onduty-table tbody tr:nth-child(even) {
+  background: rgba(255,255,255,0.05);
+}
+.current-user {
+  color: #ff4a4a;
+  font-weight: 700;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+.modal-content {
+  background: #2e2e3a;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.6);
+  color: #fff;
+}
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+.form-group label {
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+.form-group input,
+.form-group select {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+.btn-cancel {
+  background: #777;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+}
+.btn-cancel:hover {
+  background: #999;
+}
+.btn-delete {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #ff4a4a;
+  transition: transform 0.2s, color 0.2s;
+}
+.btn-delete:hover {
+  transform: scale(1.2);
+  color: #ff7777;
+}

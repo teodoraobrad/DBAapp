@@ -1,0 +1,229 @@
+
+
+  <div class="mb-4">
+   <h2 class="text-center mb-4">Zahtevi</h2>
+
+    <div id="notifications-container" class="list-group">
+
+    </div>
+  </div>
+
+  <div class="container mt-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Moji zahtevi</h2>
+    <button class="btn btn-primary" (click)="otvoriKreiranje()">+ Novi zahtev</button>
+  </div>
+
+  <table class="table table-striped table-hover table-dark">
+    <thead >
+      <tr>
+        <th>ID</th>
+        <th>Naslov</th>
+        <th>Status</th>
+        <th>Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let zahtev of mojiZahtevi" [class.zavrsen]="zahtev.Zavrsen">
+        <td>{{ zahtev.Id }}</td>
+        <td>{{ zahtev.Naslov }}</td>
+        <td>{{ zahtev.Status }}</td>
+        <td>
+          <button class="btn btn-info btn-sm" (click)="otvoriDetalje(zahtev)">Detalji</button>
+          <button *ngIf="mozeSeMenjati(zahtev)" class="btn btn-warning btn-sm" (click)="otvoriDetalje(zahtev)">Izmeni</button>
+          <button *ngIf="mozeSeBrisati(zahtev)" class="btn btn-danger btn-sm" (click)="obrisiZahtev(zahtev.Id)">Obriši</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="mt-5">Svi zahtevi</h2>
+  <table class="table table-striped table-hover table-dark ">
+    <thead >
+      <tr>
+        <th>ID</th>
+        <th>Naslov</th>
+        <th>Korisnik</th>
+        <th>Status</th>
+        
+        <th>Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let zahtev of sviZahtevi" [class.zavrsen]="zahtev.Zavrsen">
+        <td>{{ zahtev.Id }}</td>
+        <td>{{ zahtev.Naslov }}</td>
+        <td>{{ zahtev.PodneoKorisnik }}</td>
+        <td>{{ zahtev.Status }}</td>
+        <td>
+          <button class="btn btn-info btn-sm" (click)="otvoriDetalje(zahtev)">Detalji</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal za kreiranje -->
+  <div class="modal show fade d-block" tabindex="-1" role="dialog" *ngIf="showCreateModal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Novi zahtev</h5>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label>Naslov</label>
+              <input type="text" class="form-control" [(ngModel)]="noviZahtev.Naslov" name="naslov" />
+            </div>
+            <div class="form-group">
+              <label>Tekst</label>
+              <textarea class="form-control" [(ngModel)]="noviZahtev.Tekst" name="tekst"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Prioritet</label>
+              <input type="number" class="form-control" [(ngModel)]="noviZahtev.Prioritet" name="prioritet" />
+            </div>
+            <div class="form-group">
+               <label>Tip</label>
+              <select class="form-control" [(ngModel)]="noviZahtev.Tip" name="tip">
+                <option *ngFor="let t of tipoviZahteva" [value]="t.id">{{ t.ime }}</option>
+              </select>
+            </div>
+           
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="zatvoriKreiranje()">Otkaži</button>
+          <button class="btn btn-primary" (click)="kreirajZahtev()">Sačuvaj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="modal show fade d-block" tabindex="-1" role="dialog" *ngIf="showDetailModal">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalji zahteva</h5>
+      </div>
+
+      <div class="modal-body" *ngIf="izabraniZahtev">
+
+    
+        <div class="form-group">
+          <label>Podneo korisnik</label>
+          <input type="text" class="form-control" [value]="izabraniZahtev.PodneoKorisnik" disabled />
+        </div>
+
+      
+        <div class="form-group">
+          <label>Naslov</label>
+          <input type="text" class="form-control" [(ngModel)]="izabraniZahtev.Naslov" name="naslov" />
+        </div>
+
+  
+        <div class="form-group">
+          <label>Datum podnošenja</label>
+          <input type="datetime-local" class="form-control" [value]="izabraniZahtev.DatumPodnosenja | date:'yyyy-MM-ddTHH:mm'" disabled />
+        </div>
+
+        <div class="form-group">
+          <label>Tekst</label>
+          <textarea class="form-control" [(ngModel)]="izabraniZahtev.Tekst" name="tekst"></textarea>
+        </div>
+
+    
+        <div class="form-group">
+          <label>Uradio admin</label>
+          <input type="text" class="form-control" [value]="izabraniZahtev.UradioAdmin" disabled />
+        </div>
+
+    
+        <div class="form-group">
+          <label>Datum preuzimanja</label>
+          <input type="datetime" class="form-control"
+       [value]="izabraniZahtev.DatumPreuzimanja ? (izabraniZahtev.DatumPreuzimanja | date:'yyyy-MM-ddTHH:mm') : ''"
+       disabled />
+
+        </div>
+
+   
+        <div class="form-group">
+          <label>Status</label>
+          <input type="text" class="form-control" [value]="izabraniZahtev.Status" disabled />
+        </div>
+
+       
+        <div class="form-group">
+          <label>Prioritet</label>
+          <input type="number" class="form-control" [(ngModel)]="izabraniZahtev.Prioritet" name="prioritet" />
+        </div>
+
+       
+        <div class="form-group">
+          <label>Tip</label>
+          <select class="form-control" [(ngModel)]="izabraniZahtev.Tip" name="tip">
+            <option *ngFor="let t of tipoviZahteva" [value]="t.id">{{ t.ime }}</option>
+          </select>
+        </div>
+
+       
+      <div class="form-group mt-3">
+  <div class="d-flex align-items-center">
+    <input type="checkbox"
+           class="form-check-input"
+           [checked]="izabraniZahtev.PotrebnaSaglasnost"
+           disabled
+           style="width: 1rem; height: 1rem; margin-right: 0.5rem;" />
+    <label class="form-check-label m-0">Potrebna saglasnost</label>
+  </div>
+</div>
+
+        
+        <div class="form-group">
+          <label>Saglasan korisnik</label>
+          <input type="text" class="form-control" [value]="izabraniZahtev.SaglasanKorisnik" disabled />
+        </div>
+
+       
+        <div class="form-group">
+          <label>Datum saglasnosti</label>
+          <input type="datetime" class="form-control"
+       [value]="izabraniZahtev.DatumSaglasnosti ? (izabraniZahtev.DatumSaglasnosti | date:'yyyy-MM-ddTHH:mm') : ''"
+       disabled />
+
+        </div>
+
+
+
+      <div class="form-group mt-3">
+  <div class="d-flex align-items-center">
+    <input type="checkbox"
+           class="form-check-input"
+           [checked]="izabraniZahtev.Zavrsen"
+           disabled
+           style="width: 1rem; height: 1rem; margin-right: 0.5rem;" />
+    <label class="form-check-label m-0">Završen</label>
+  </div>
+</div>
+
+      
+        <div class="form-group">
+          <label>Datum završetka</label>
+          <input type="datetime" class="form-control" [value]="izabraniZahtev.DatumZavrsetka" disabled />
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="zatvoriDetalje()">Zatvori</button>
+        <button *ngIf="mozeSeMenjati(izabraniZahtev!)" class="btn btn-primary" (click)="izmeniZahtev()">Sačuvaj izmene</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div>

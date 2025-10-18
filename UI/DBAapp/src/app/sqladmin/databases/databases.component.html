@@ -1,0 +1,136 @@
+<div class="app-wrapper p-4">
+  <div class="d-flex justify-content-between align-items-center mb-4"><h2 class="page-title">SQL Baze</h2>
+      <button class="btn-add" (click)="add()">Dodaj novu</button>
+
+</div>
+  <div class="select-inline">
+  <label for="serverSelect">Izaberi server:</label>
+  <select id="serverSelect" [(ngModel)]="selectedServerId" (change)="onServerChange()">
+    <option [ngValue]="null">-- Izaberi --</option>
+    <option *ngFor="let s of servers" [ngValue]="s.Id">{{ s.Naziv }}</option>
+  </select> 
+ 
+</div>
+
+
+  <table class="onduty-table" *ngIf="baze.length > 0">
+    <thead>
+      <tr>
+        <th>Ime</th>
+        <th>Recovery model</th>
+        <th>Compatibility</th>
+        <th>Owner</th>
+        <th>Kreirana</th>
+        <th>Poslednji bekap</th>
+        <th>Veličina (MB)</th>
+        <th>Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let b of baze">
+        <td>{{ b.Ime }}</td>
+        <td>{{ b.RecoveryModel }}</td>
+        <td>{{ b.CompatibilityLvl }}</td>
+        <td>{{ b.OwnerName }}</td>
+        <td>{{ b.DatumKreiranja | date:'short' }}</td>
+        <td>{{ b.PoslednjiBekap | date:'short' }}</td>
+        <td>{{ b.VelicinaMb }}</td>
+        <td>
+          <button class="btn-add bi bi-database-fill-down me-2" (click)="openBackups(b)"></button>
+          <button class="btn-add bi bi-info-circle" (click)="openEdit(b)"></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="modal-overlay" *ngIf="backupModal">
+    <div class="modal-content">
+      <h3>Backupi baze</h3>
+      <div class="modal-body" style="grid-template-columns: 1fr;">
+        <table class="onduty-table" *ngIf="backups.length > 0">
+          <thead>
+            <tr>
+              <th>Tip</th>
+              <th>Datum</th>
+              <th>Putanja</th>
+              <th>Veličina (MB)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let bk of backups">
+              <td>{{ bk.Tip }}</td>
+              <td>{{ bk.Datum | date:'short' }}</td>
+              <td>{{ bk.Putanja }}</td>
+              <td>{{ bk.VelicinaMB }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p *ngIf="backups.length === 0">Nema podataka o backupima.</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="closeModals()">Zatvori</button>
+      </div>
+    </div>
+  </div>
+
+<div class="modal-overlay" *ngIf="editModal">
+  <div class="modal-content large">
+    <h3>Izmena baze</h3>
+    <div class="modal-body grid">
+      <div class="form-group">
+        <label>Id</label>
+        <input [(ngModel)]="selectedBaza.Id" readonly />
+      </div>
+      <div class="form-group">
+        <label>Id SQL Servera</label>
+        <input [(ngModel)]="selectedBaza.IdSqlservera" type="number" />
+      </div>
+      <div class="form-group">
+        <label>Ime</label>
+        <input [(ngModel)]="selectedBaza.Ime" />
+      </div>
+      <div class="form-group">
+        <label>Recovery model</label>
+        <input [(ngModel)]="selectedBaza.RecoveryModel" />
+      </div>
+      <div class="form-group">
+        <label>Compatibility level</label>
+        <input [(ngModel)]="selectedBaza.CompatibilityLvl" type="number" />
+      </div>
+      <div class="form-group">
+        <label>Owner</label>
+        <input [(ngModel)]="selectedBaza.OwnerName" />
+      </div>
+      <div class="form-group">
+        <label>Datum kreiranja</label>
+        <input [(ngModel)]="selectedBaza.DatumKreiranja" type="datetime-local" />
+      </div>
+      <div class="form-group">
+        <label>Poslednji backup</label>
+        <input [(ngModel)]="selectedBaza.PoslednjiBekap" type="datetime-local" />
+      </div>
+      <div class="form-group">
+        <label>Veličina (MB)</label>
+        <input [(ngModel)]="selectedBaza.VelicinaMb" type="number" />
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="selectedBaza.Aktivna">
+          <option [ngValue]="true">Aktivna</option>
+          <option [ngValue]="false">Neaktivna</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Readonly</label>
+        <select [(ngModel)]="selectedBaza.Readonly">
+          <option [ngValue]="true">Da</option>
+          <option [ngValue]="false">Ne</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="closeModals()">Otkaži</button>
+      <button class="btn-add" (click)="saveEdit()">Sačuvaj</button>
+    </div>
+  </div>
+</div>

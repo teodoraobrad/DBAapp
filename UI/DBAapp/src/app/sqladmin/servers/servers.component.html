@@ -1,0 +1,260 @@
+<div class="app-wrapper p-4">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="page-title">Serveri</h2>
+    <button class="btn-add" (click)="openAddServerModal()">Dodaj novi server</button>
+  </div><!-- Filter bar -->
+  <div class="filter-bar d-flex align-items-center mb-3">
+
+
+    <!-- Search field with clear button -->
+    <div class="search-wrapper flex-grow-1 position-relative">
+
+      <input type="text" class="form-control search-input" placeholder="🔍 Pretraga po hostname..."
+        [(ngModel)]="searchTerm" (input)="filterServers()" />
+
+      <!-- Clear button -->
+      <button *ngIf="searchTerm" type="button" class="clear-btn" (click)="clearSearch()">✖</button>
+    </div>
+    <!-- Radio buttons -->
+    <div class="me-3">
+      <div class="ms-3">
+        <label class="me-3">
+          <input type="radio" name="serverFilter" value="" [(ngModel)]="showProd" (change)="filterServers()" checked
+            default> Svi
+        </label>
+        <label>
+          <input type="radio" name="serverFilter" value="prod" [(ngModel)]="showProd" (change)="filterServers()">
+          Produkcioni
+        </label>
+        <label class="ms-3">
+          <input type="radio" name="serverFilter" value="neprod" [(ngModel)]="showProd" (change)="filterServers()">
+          Neprodukcioni
+        </label>
+        <label class="ms-3">
+          <input type="radio" name="serverFilter" value="arh" [(ngModel)]="showProd" (change)="filterServers()">
+          Arhivirani
+        </label>
+      </div>
+
+    </div>
+  </div>
+  <!-- Servers table -->
+  <table class="onduty-table">
+    <thead>
+      <tr>
+        <th>Hostname</th>
+        <th>Okruzenje</th>
+        <th>IP adresa</th>
+        <th>OS</th>
+        <th>Klaster</th>
+        <th>Lokacija</th>
+        <th>Virtuelan</th>
+        <th>Aktivan</th>
+        <th>Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let server of filteredServers">
+        <td>{{ server.Hostname }}</td>
+        <td>{{ findOkr(server.IdOkruzenja) }}</td>
+        <td>{{ server.IpAdresa }}</td>
+        <td>{{ server.OS }}</td>
+        <td>{{ server.Klaster }}</td>
+        <td>{{ server.Lokacija }}</td>
+        <td>{{ server.Virtuelan ? 'Da' : 'Ne' }}</td>
+        <td>{{ server.Aktivan ? 'Da' : 'Ne' }}</td>
+        <td>
+          <button class="btn-add bi bi-ticket-detailed me-2" (click)="openServerDetails(server)"></button>
+          <button class="btn-add bi bi-clock-history me-2 special-btn" (click)="restartIst(server)"></button>
+          <button class="btn-delete bi bi-bootstrap-reboot" (click)="restartServer(server)"></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Modal -->
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal-content modal-large">
+    <h3>Detalji servera</h3>
+    <form #serverForm="ngForm">
+      <div class="modal-body">
+
+        <!-- Id (readonly) -->
+        <div class="form-group">
+          <label>Id</label>
+          <input [value]="selectedServer.Id" readonly />
+        </div>
+
+        <!-- Hostname (editable) -->
+        <div class="form-group">
+          <label>Hostname</label>
+          <input [(ngModel)]="selectedServer.Hostname" name="hostname" />
+        </div>
+
+        <!-- IP adresa (editable, IP validation) -->
+        <div class="form-group">
+          <label>IP adresa</label>
+          <input
+            [(ngModel)]="selectedServer.IpAdresa"
+            name="ipAdresa"
+            #ipAdresaModel="ngModel"
+            pattern="^(25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})){3}$"
+            required
+          />
+          <div class="error-message" *ngIf="ipAdresaModel.invalid && ipAdresaModel.touched">
+            <small *ngIf="ipAdresaModel.errors?.['required']">IP adresa je obavezna.</small>
+            <small *ngIf="ipAdresaModel.errors?.['pattern']">
+              Unesite ispravnu IP adresu (npr. 192.168.0.1).
+            </small>
+          </div>
+        </div>
+
+        <!-- OS (editable) -->
+        <div class="form-group">
+          <label>OS</label>
+          <input [(ngModel)]="selectedServer.OS" name="os" />
+        </div>
+
+        <!-- Broj jezgara -->
+        <div class="form-group">
+          <label>Broj jezgara</label>
+          <input type="number" [(ngModel)]="selectedServer.BrojJezgara" name="brojJezgara" />
+        </div>
+
+        <!-- Okruzenje (drop-down) -->
+        <div class="form-group">
+          <label>Okruzenje</label>
+          <select [(ngModel)]="selectedServer.IdOkruzenja" name="idOkruzenja">
+            <option *ngFor="let o of okruzenja" [value]="o.id">{{ o.naziv }}</option>
+          </select>
+        </div>
+
+        <!-- Lokacija -->
+        <div class="form-group">
+          <label>Lokacija</label>
+          <input [(ngModel)]="selectedServer.Lokacija" name="lokacija" />
+        </div>
+  <!-- Klaster -->
+        <div class="form-group">
+          <label>Klaster</label>
+          <input [(ngModel)]="selectedServer.Klaster" name="klaster" />
+        </div>
+        <!-- Virtuelan (checkbox) -->
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="selectedServer.Virtuelan" name="virtuelan" />
+            Virtuelan
+          </label>
+        </div>
+
+        <!-- Aktivan (checkbox) -->
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="selectedServer.Aktivan" name="aktivan" />
+            Aktivan
+          </label>
+        </div>
+
+        <!-- Datum instalacije -->
+        <div class="form-group">
+          <label>Datum instalacije</label>
+          <input type="date" [(ngModel)]="selectedServer.DatumInstalacije" name="datumInstalacije" />
+        </div>
+
+      
+
+        <!-- RAM (GB) -->
+        <div class="form-group">
+          <label>RAM (GB)</label>
+          <input type="number" [(ngModel)]="selectedServer.RAM_GB" name="ramGb" />
+        </div>
+
+        <!-- Storage (GB) -->
+        <div class="form-group">
+          <label>Storage (GB)</label>
+          <input type="number" [(ngModel)]="selectedServer.Storage_GB" name="storageGb" />
+        </div>
+
+        <!-- Status -->
+        <div class="form-group">
+          <label>Status</label>
+          <input [(ngModel)]="selectedServer.Status" name="status" />
+        </div>
+
+        <!-- Napomena -->
+        <div class="form-group">
+          <label>Napomena</label>
+          <input [(ngModel)]="selectedServer.Napomena" name="napomena" />
+        </div>
+
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" type="button" (click)="closeModal()">Zatvori</button>
+        <button 
+          class="btn-add" 
+          type="button"
+          (click)="saveServer()"  
+          [disabled]="ipAdresaModel.invalid"
+        >
+          Sačuvaj
+        </button>
+        <button 
+          class="btn-archive bi bi-archive-fill" 
+          type="button"
+          [disabled]="selectedServer.Aktivan"
+          (click)="archiveServer(selectedServer)"
+        >
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+</div>
+<!-- Confirm modal za restart -->
+<div class="modal-overlay" *ngIf="showConfirm">
+  <div class="modal-content">
+    <h3>Potvrda restart servera</h3>
+    <p>Da li ste sigurni da želite restartovati server: <strong>{{ serverToRestart?.Hostname }}</strong>?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="cancelRestart()">Ne</button>
+      <button class="btn-add" (click)="confirmRestart()">Da, restartuj</button>
+    </div>
+  </div>
+</div>
+
+<!-- Restart modal -->
+<div class="modal-overlay" *ngIf="restartModal">
+  <div class="modal-content modal-large">
+    <h3>Istorija restarta za server: <strong>{{ serverToRestart?.Hostname }}</strong></h3>
+    <div class="modal-body">
+      <table class="onduty-table">
+        <thead>
+          <tr>
+            <th>Komanda</th>
+            <th>Uneto</th>
+            <th>Korisnik</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of restarts">
+            <td>{{ r.Komanda }}</td>
+            <td>{{ r.Uneto | date:'dd.MM.yyyy HH:mm' }}</td>
+            <td>{{ r.Korisnik }}</td>
+          </tr>
+          <tr *ngIf="restarts.length === 0">
+            <td colspan="3" style="text-align:center;">Nema zapisa o restartu</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" type="button" (click)="closeRestartModal()">Zatvori</button>
+    </div>
+  </div>
+</div>

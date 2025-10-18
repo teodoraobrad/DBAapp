@@ -1,0 +1,76 @@
+
+
+ 
+  <div class="mb-4">
+   <h2 class="text-center mb-4">S🚨S</h2>
+
+  </div>
+<div *ngIf="sosObavestenja.length >0; else nemaSos">
+  <table class="table table-striped table-hover table-dark">
+    <thead>
+      <tr>
+        <th>Objavio</th>
+        <th>Tekst</th>
+        <th>Datum Objave</th>
+        <th>Početak akcije</th>
+        <th>Kraj akcije</th>
+        <th>SOS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of sosObavestenja"
+          [ngClass]="{
+            'text-muted': nijeAktuelno(o),
+            'sos-crveno': o.Sos && !nijeAktuelno(o)
+          }">
+        <td>{{ o.KorisnickoIme }}</td>
+        <td>{{ o.Tekst }}</td>
+        <td>{{ o.Datum | date:'short' }}</td>
+        <td>{{ o.DatumOd | date:'shortDate' }}</td>
+        <td>{{ o.DatumDo | date:'shortDate' }}</td>
+        <td>{{ o.Sos ? 'Da' : 'Ne' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #nemaSos>
+  <p class="text-center ">Danas nema SOS obaveštenja.</p>
+</ng-template>
+
+
+
+ <div class="mb-4">
+   <h2 class="text-center mb-4">Obaveštenja</h2>
+
+   
+  </div>
+<div>
+  <!-- Tabela sa svim obaveštenjima -->
+  <table class="table table-striped table-hover table-dark">
+    <thead>
+      <tr>
+        <th>Objavio</th>
+        <th>Tekst</th>
+        <th>Datum Objave</th>
+        <th>Početak akcije</th>
+        <th>Kraj akcije</th>
+        <th>SOS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of obavestenja"
+          [ngClass]="{
+            'text-muted': nijeAktuelno(o),
+            'sos-crveno': o.Sos && !nijeAktuelno(o)
+          }">
+        <td>{{ o.KorisnickoIme }}</td>
+        <td>{{ o.Tekst }}</td>
+        <td>{{ o.Datum | date:'short' }}</td>
+        <td>{{ o.DatumOd | date:'shortDate' }}</td>
+        <td>{{ o.DatumDo | date:'shortDate' }}</td>
+        <td>{{ o.Sos ? 'Da' : 'Ne' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,40 @@
+.app-wrapper {
+  background: linear-gradient(-45deg, #1f1c2c, #928dab, #2c3e50, #4a4e69);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  min-height: 100vh;
+  padding: 1rem;
+  color: white;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+}
+
+th, td {
+  padding: 0.5rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.text-muted {
+  opacity: 0.5;
+}
+
+.font-weight-bold {
+  font-weight: 100;
+  color: red;
+  
+}
+.sos-crveno {
+  color: red !important;
+  font-weight: bold;
+}

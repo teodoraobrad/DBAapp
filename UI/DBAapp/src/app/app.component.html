@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark app-navbar px-3">
+  <!-- Leva strana: dropdown meni -->
+  <div class="dropdown me-3">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+      Meni
+    </button>
+    <ul class="dropdown-menu dropdown-menu-custom" aria-labelledby="dropdownMenuButton">
+      
+      <li><a class="dropdown-item" routerLink="/" *ngIf="!isLoggedIn">Početna</a></li> 
+      <li><a class="dropdown-item" routerLink="/about">O aplikaciji</a></li> 
+      <li><a class="dropdown-item" routerLink="/register" *ngIf="!isLoggedIn">Registruj se</a></li> 
+      <li><a class="dropdown-item" routerLink="/login" *ngIf="!isLoggedIn">Prijavi se</a></li> 
+
+      <li><a class="dropdown-item" routerLink="/sqladmin/intersection" *ngIf="isSQLadmin">Komanda</a></li>
+      <li><a class="dropdown-item" routerLink="/user" *ngIf="isLoggedIn">Moja početna</a></li>
+      <li><a class="dropdown-item" routerLink="/pass-change" *ngIf="isLoggedIn">Promeni lozinku</a></li> 
+
+      
+      <li><a class="dropdown-item" routerLink="/contact">Kontakt</a></li>
+    </ul>
+  </div>
+
+  <div class="d-flex ms-auto">
+    <ng-container *ngIf="!isLoggedIn">
+      <a routerLink="/register" class="btn btn-accent me-2">Registruj se</a>
+      <a routerLink="/login" class="btn btn-outline-light me-2">Prijavi se</a>
+      
+    </ng-container>
+
+    <ng-container *ngIf="isLoggedIn">
+      <span class="navbar-text me-2 ">
+        👤 {{ username }}
+      </span>
+      <button class="btn btn-secondary" (click)="logout()">Odjavi me</button>
+    </ng-container>
+  </div>
+</nav>
+
+<a routerLink="/" class="app-center-title text-white text-center text-decoration-none">
+  DBA App
+</a>
+
+<div class="app-wrapper">
+  <router-outlet></router-outlet>
+</div>

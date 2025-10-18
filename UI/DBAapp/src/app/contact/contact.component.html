@@ -1,0 +1,33 @@
+<div class="contact-page">
+  <h1 class="contact-title">Dežurni administrator baza podataka </h1>
+  
+  <div *ngIf="!loadError"  class="contact-info">
+    <div class="info-item">
+      <strong>Ime i prezime:</strong>
+      <span>{{ ime }} {{ prezime }}</span>
+      
+    </div>
+    
+    <div class="info-item">
+      <strong>Telefon</strong>
+      <span>{{ telefon }}</span>
+    </div>
+
+    <div class="info-item">
+      <strong>Email dežurnog:</strong>
+      <span>{{ email }}</span>
+    </div>
+
+    <div class="info-item">
+      <strong>Email nadležnog tima:</strong>
+      <span>{{emailfirme}}</span>
+    </div>
+    <div class="info-item">
+      <strong>Adresa firme:</strong>
+      <span>{{adresafirme}}</span>
+    </div>
+  </div>
+  <div *ngIf="loadError" class="error-message">
+    <strong>Došlo je do greške:</strong> {{ loadError }}
+  </div>
+</div>

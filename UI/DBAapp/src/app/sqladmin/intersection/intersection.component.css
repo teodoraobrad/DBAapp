@@ -1,0 +1,56 @@
+/* Grid 3x3 ikona */
+.icons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 1.5rem;
+  height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  place-items: center;
+}
+
+.icon-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: white;
+  background: rgba(0,0,0,0.3);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: transform 0.25s, box-shadow 0.25s;
+  width: 100%;
+  height: 100%;
+}
+
+.icon-card i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #8fb3ff;
+}
+
+.icon-card span {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.icon-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.45);
+}
+
+@media (max-width: 768px) {
+  .icons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .icons-grid {
+    grid-template-columns: 1fr;
+  }
+}

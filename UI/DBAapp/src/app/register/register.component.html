@@ -1,0 +1,90 @@
+<div class="register-wrapper d-flex align-items-center justify-content-center min-vh-100 text-white">
+  <div class="card p-4 shadow-lg register-card d-flex flex-row w-100">
+ 
+    <div class="register-left pe-4 border-end">
+      <h2>Dobrodošli na sajt za upravljanje serverima!</h2>
+      <p>Popunite formular kako biste podneli zahtev za kreiranje naloga. Nalog će biti kreiran kada ga administratori odobre, dobićete obaveštenje putem email-a. Svi podaci koje unesete su poverljivi i koristiće se samo u poslovne svrhe.</p>
+      <ul>
+        <li>Polja ime, prezime, email, JMBG, lozinka su obavezna</li>
+        <li>Proverite dostupnost korisničkog imena</li>
+        <li>Lozinka mora imati najmanje 8 karaktera</li>
+        <li>Polja lozinka i ponovi lozinku biti isto popunjena</li>
+        
+      </ul>
+    </div>
+
+    <div class="register-right ps-4 flex-fill">
+      <h3 class="mb-3 text-center">Registracija</h3>
+
+      <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" novalidate>
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <label for="korisnickoIme" class="form-label">Korisničko ime</label>
+            <div class="input-group">
+              <input type="text" id="korisnickoIme" class="form-control" formControlName="korisnickoIme">
+              <button type="button" class="btn btn-outline-light" (click)="proveriKorisnickoIme()">Proveri</button>
+            </div>
+            <div class="text-danger" *ngIf="usernameTaken">Korisničko ime je zauzeto</div>
+          </div>
+           <div class="col-md-6">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" formControlName="email">
+          </div>
+          <div class="col-md-6">
+            <label for="ime" class="form-label">Ime</label>
+            <input type="text" id="ime" class="form-control" formControlName="ime">
+          </div>
+
+          <div class="col-md-6">
+            <label for="prezime" class="form-label">Prezime</label>
+            <input type="text" id="prezime" class="form-control" formControlName="prezime">
+          </div>
+
+          <div class="col-md-6">
+            <label for="jmbg" class="form-label">JMBG</label>
+            <input type="text" id="jmbg" class="form-control" formControlName="jmbg" maxlength="13">
+          </div>
+
+          <div class="col-md-6">
+            <label for="telefon" class="form-label">Telefon</label>
+            <input type="text" id="telefon" class="form-control" formControlName="telefon">
+          </div>
+
+         
+
+          <div class="col-md-6">
+            <label for="password" class="form-label">Lozinka</label>
+            <input type="password" id="lozinka" class="form-control" formControlName="lozinka">
+          </div>
+
+          <div class="col-md-6">
+            <label for="confirmPassword" class="form-label">Ponovi lozinku</label>
+            <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword">
+            <div class="text-danger" *ngIf="lozinkeSeNePoklapaju">Lozinke se ne poklapaju</div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="tim" class="form-label">Tim</label>
+            <select id="tim" class="form-select" formControlName="tim">
+              <option *ngFor="let tim of timovi" [value]="tim.naziv">{{ tim.naziv }}</option>
+            </select>
+          </div>
+
+          <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-accent w-100 btn-lg">Registruj se</button>
+          </div>
+
+          <div class="text-success mt-2" *ngIf="uspesnoRegistrovan">
+            Uspešno ste se registrovali! Bićete preusmereni na login stranicu...
+          </div>
+
+          <div class="text-danger mt-2" *ngIf="error">
+            {{ error }}
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,216 @@
+<div class="app-wrapper p-4">
+
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="page-title">SQL Serveri</h2>
+    <button class="btn-add" (click)="openAddServerModal()">Dodaj novi SQL server</button>
+  </div><!-- Filter bar -->
+  <div class="filter-bar d-flex align-items-center mb-3">
+
+
+ 
+    <div class="search-wrapper flex-grow-1 position-relative">
+
+      <input type="text" class="form-control search-input" placeholder="🔍 Pretraga po nazivu..."
+        [(ngModel)]="searchTerm" (input)="filterServers()" />
+
+    
+      <button *ngIf="searchTerm" type="button" class="clear-btn" (click)="clearSearch()">✖</button>
+    </div>
+
+    <div class="me-3">
+      <div class="ms-3">
+        <label class="me-3">
+          <input type="radio" name="serverFilter" value="" [(ngModel)]="showProd" (change)="filterServers()" checked
+            default> Svi
+        </label>
+        <label>
+          <input type="radio" name="serverFilter" value="a" [(ngModel)]="showProd" (change)="filterServers()">
+          Aktivni
+        </label>
+        <label class="ms-3">
+          <input type="radio" name="serverFilter" value="ne" [(ngModel)]="showProd" (change)="filterServers()">
+          Nekativni
+        </label>
+      </div>
+
+    </div>
+  </div>
+
+  <table class="onduty-table">
+    <thead>
+      <tr>
+        <th>Instance name</th>
+        <th>Server</th>
+        <th>Verzija</th>
+        <th>Edicija</th>
+        <th>Verzija1</th>
+        <th>Nalog</th>
+        <th>Datum Instalacije</th>
+        <th>Aktivan</th>
+        <th>Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let server of filteredServers">
+        <td>{{ server.Naziv }}</td>
+        <td>{{ findSrv(server.IdServera) }}</td>
+        <td>{{ server.Verzija }}</td>
+        <td>{{ server.Edicija }}</td>
+        <td>{{ server.Verzija1 }}</td>
+        <td>{{ server.Nalog }}</td>
+        <td>{{ server.DatumInstalacije}}</td>
+        <td>{{ server.Aktivan ? 'Da' : 'Ne' }}</td>
+        <td>
+          <button class="btn-add bi bi-ticket-detailed me-2" (click)="openServerDetails(server)"></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal-content modal-large">
+    <h3>Detalji SQL servera</h3>
+    <form #serverForm="ngForm">
+      <div class="modal-body">
+
+     
+        <div class="form-group">
+          <label>Id</label>
+          <input [value]="selectedServer.Id" readonly />
+        </div>
+
+      
+        <div class="form-group">
+          <label>Instance name</label>
+          <input [(ngModel)]="selectedServer.Naziv" name="naziv" />
+        </div>
+
+       
+        <div class="form-group">
+          <label>Verzija</label>
+          <input [(ngModel)]="selectedServer.Verzija" name="verzija" />
+      
+        </div>
+
+     
+        <div class="form-group">
+          <label>Edicija</label>
+          <input [(ngModel)]="selectedServer.Edicija" name="edicija" />
+        </div>
+
+     
+        <div class="form-group">
+          <label>Verzija1</label>
+          <input [(ngModel)]="selectedServer.Verzija1" name="verzija1" />
+        </div>
+
+        
+        <div class="form-group">
+          <label>HostServer</label>
+          <select [(ngModel)]="selectedServer.IdServera" name="hostsrv">
+            <option *ngFor="let o of srcsrv" [value]="o.Id">{{ o.Hostname }}</option>
+          </select>
+        </div>
+
+  
+        <div class="form-group">
+          <label>Nalog</label>
+          <input [(ngModel)]="selectedServer.Nalog" name="nalog" />
+        </div>
+
+        <div class="form-group">
+          <label>Datum Instalacije</label>
+          <input type="date" [(ngModel)]="selectedServer.DatumInstalacije" name="datum" />
+        </div>
+       
+
+      
+      
+        <div class="form-group">
+          <label>Kolacija</label>
+          <input  [(ngModel)]="selectedServer.Kolacija" name="kolacija" />
+        </div>
+
+        <div class="form-group">
+          <label>Port</label>
+          <input type="number" [(ngModel)]="selectedServer.Port" name="port" />
+        </div>
+
+
+        <div class="form-group">
+          <label>Status</label>
+          <input [(ngModel)]="selectedServer.Status" name="status" />
+        </div>
+
+ 
+        <div class="form-group">
+          <label>Nalog</label>
+          <input [(ngModel)]="selectedServer.Nalog" name="nalog" />
+        </div>
+     
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="selectedServer.Aktivan" name="aktivan" />
+            Aktivan
+          </label>
+        </div>
+
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" type="button" (click)="closeModal()">Zatvori</button>
+        <button 
+          class="btn-add" 
+          type="button"
+          (click)="saveServer()"  
+        >
+          Sačuvaj
+        </button>
+       <!---- <button 
+          class="btn-archive bi bi-archive-fill" 
+          type="button"
+          [disabled]="selectedServer.Aktivan"
+          (click)="archiveServer(selectedServer)"
+        >
+        </button>--->
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+<!-- Restart modal 
+<div class="modal-overlay" *ngIf="restartModal">
+  <div class="modal-content modal-large">
+    <h3>Istorija restarta za server: <strong>{{ serverToRestart?.Hostname }}</strong></h3>
+    <div class="modal-body">
+      <table class="onduty-table">
+        <thead>
+          <tr>
+            <th>Komanda</th>
+            <th>Uneto</th>
+            <th>Korisnik</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of restarts">
+            <td>{{ r.Komanda }}</td>
+            <td>{{ r.Uneto | date:'dd.MM.yyyy HH:mm' }}</td>
+            <td>{{ r.Korisnik }}</td>
+          </tr>
+          <tr *ngIf="restarts.length === 0">
+            <td colspan="3" style="text-align:center;">Nema zapisa o restartu</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" type="button" (click)="closeRestartModal()">Zatvori</button>
+    </div>
+  </div>
+</div>
+ -->

@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>O aplikaciji — DBA generalštab</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+     .app-wrapper {
+      background: linear-gradient(-45deg, #1f1c2c, #928dab, #2c3e50, #4a4e69);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      color: #fff;
+      font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3.5rem 1.25rem;
+    }
+
+     .about-hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    @media (min-width: 900px) {
+      .about-hero {
+        grid-template-columns: 1fr 420px;
+        text-align: left;
+      }
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      gap: .6rem;
+      align-items: center;
+      background: rgba(255,255,255,0.06);
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      font-weight: 600;
+      color: #e6e6f0;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+
+    .hero-title {
+      font-size: 2.1rem;
+      margin: 0 0 0.5rem 0;
+      line-height: 1.05;
+      font-weight: 800;
+      text-shadow: 0 6px 22px rgba(0,0,0,0.6);
+    }
+
+    .hero-lead {
+      margin: 0;
+      color: rgba(255,255,255,0.9);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .hero-visual {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .hero-visual .illustration {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 14px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.08));
+      padding: 1.25rem;
+      text-align:center;
+    }
+
+    .illustration svg {
+      width: 100%;
+      height: auto;
+      display:block;
+    }
+
+    .section {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .section h2 {
+      margin: 0 0 1rem 0;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.06));
+      padding: 1.25rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+      transition: transform .22s ease, box-shadow .22s ease;
+      min-height: 140px;
+      display:flex;
+      flex-direction:column;
+      gap: .6rem;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+    }
+
+    .card .icon {
+      font-size: 1.7rem;
+      color: #8fb3ff;
+      background: rgba(255,255,255,0.03);
+      width: 44px;
+      height: 44px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius: 10px;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 1.02rem;
+      font-weight: 700;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.87);
+      line-height:1.45;
+      flex:1;
+    }
+ .tech {
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    @media (min-width: 900px) {
+      .tech {
+        grid-template-columns: 1fr 360px;
+      }
+    }
+
+    .spec-list {
+      display:flex;
+      flex-direction:column;
+      gap:.6rem;
+    }
+
+    .spec-item {
+      display:flex;
+      gap:.75rem;
+      align-items:flex-start;
+      background: rgba(0,0,0,0.05);
+      padding: .7rem;
+      border-radius: 10px;
+    }
+
+    .spec-item .dot {
+      width:10px; height:10px; border-radius:50%;
+      background:#8fb3ff; margin-top:.45rem;
+      flex:0 0 10px;
+    }
+
+    .roadmap {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.05));
+      padding:1rem;
+      border-radius:10px;
+    }
+
+    .team-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+      gap: 1rem;
+    }
+
+    .member {
+      background: rgba(255,255,255,0.03);
+      padding: .85rem;
+      border-radius: 12px;
+      text-align:center;
+    }
+
+    .member img {
+      width:72px;
+      height:72px;
+      object-fit:cover;
+      border-radius:12px;
+      display:block;
+      margin:0 auto .6rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+
+    .member h4 {
+      margin:0; font-size:1rem;
+    }
+
+    .member p {
+      margin:.35rem 0 0; font-size:.9rem; color: rgba(255,255,255,0.85);
+    }
+
+     .about-footer {
+      margin-top:auto;
+      padding: 1.25rem;
+      text-align:center;
+      font-size:0.9rem;
+      color: rgba(255,255,255,0.78);
+      background: linear-gradient(180deg, rgba(0,0,0,0.02), transparent);
+    }
+
+    .cta-row {
+      display:flex;
+      gap:.6rem;
+      flex-wrap:wrap;
+      margin-top:1rem;
+    }
+
+    .btn {
+      background: #2b6df6;
+      color: #fff;
+      padding: .6rem .85rem;
+      border-radius: 10px;
+      text-decoration:none;
+      font-weight:700;
+      box-shadow: 0 8px 20px rgba(43,109,246,0.18);
+      transition: transform .18s ease;
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,0.06);
+      color: #e9f0ff;
+      font-weight:600;
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+  </style>
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <main class="container">
+
+       <header class="about-hero" role="banner">
+        <div>
+          <div class="brand-badge">
+            <i class="bi bi-server"></i>
+            DBA generalštab
+          </div>
+
+          <h1 class="hero-title">Šta je DBA generalštab?</h1>
+
+          <p class="hero-lead">
+            DBA generalštab je centralizovana web aplikacija za upravljanje i nadzor SQL servera. 
+            Pruža brz uvid u status servera, metrike performansi, sistem zahteva i alatke za bezbedno upravljanje bazama podataka — sve na jednom mestu.
+          </p>
+
+          <div class="cta-row" aria-hidden="false" style="margin-top:1rem;">
+           
+            <a class="btn secondary" href="/contact">Kontakt dežurnog </a>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="illustration">
+            <svg viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="gA" x1="0" x2="1">
+                  <stop offset="0" stop-color="#b9c9ff" stop-opacity=".14"/>
+                  <stop offset="1" stop-color="#3b82f6" stop-opacity=".06"/>
+                </linearGradient>
+              </defs>
+              
+              <g transform="translate(320,40)">
+                <rect x="0" y="0" width="220" height="220" rx="18" fill="url(#gA)" opacity=".12"/>
+                <g transform="translate(20,20)">
+                  <circle cx="40" cy="40" r="24" fill="#3b82f6" opacity=".9"/>
+                  <rect x="0" y="90" width="180" height="18" rx="6" fill="#ffffff" opacity=".06"/>
+                  <rect x="0" y="120" width="140" height="18" rx="6" fill="#ffffff" opacity=".05"/>
+                 </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </header>
+
+      <section id="features" class="section" aria-labelledby="features-heading">
+        <h2 id="features-heading">Ključne funkcije</h2>
+
+        <div class="features-grid" role="list">
+          <div class="card" role="listitem" aria-label="Centralizovana kontrola">
+            <div class="icon"><i class="bi bi-database-fill"></i></div>
+            <h3>Centralizovana kontrola</h3>
+            <p>Pregled svih instanci, konekcija i statusa na jednom panelu — brzo otkrivanje problema i rutinska administracija bez skakanja između alata.</p>
+          </div>
+
+          <div class="card" role="listitem" aria-label="Praćenje performansi">
+            <div class="icon"><i class="bi bi-speedometer2"></i></div>
+            <h3>Praćenje performansi</h3>
+            <p>Real-time metrike i upozorenja za CPU, memoriju, IO i upite koji izazivaju zagušenja.</p>
+          </div>
+
+          <div class="card" role="listitem" aria-label="Sistem zahteva">
+            <div class="icon"><i class="bi bi-list-check"></i></div>
+            <h3>Sistem zahteva</h3>
+            <p>Jednostavna komunikacija sa klijentima, ticketing sistem.</p>
+          </div>
+
+          <div class="card" role="listitem" aria-label="Bezbednost i pristupi">
+            <div class="icon"><i class="bi bi-shield-lock-fill"></i></div>
+            <h3>Administracija naloga</h3>
+            <p>Upravljanje korisničkim nalozima.</p>
+          </div>
+        </div>
+      </section>
+
+       <section class="section tech" aria-labelledby="tech-heading">
+        <div>
+          <h2 id="tech-heading">Tehnički sažetak</h2>
+
+          <div class="spec-list">
+            <div class="spec-item">
+              <div class="dot"></div>
+              <div>
+                <strong>Arhitektura:</strong> 
+              </div>
+            </div>
+
+            <div class="spec-item">
+              <div class="dot"></div>
+              <div>
+                <strong>Podržani sistemi:</strong> 
+              </div>
+            </div>    
+          </div>
+        </div>  
+      </section>
+ <section class="section" aria-labelledby="team-heading">
+        <h2 id="team-heading">Tim i podrška</h2>
+
+        <p style="margin-top:0.4rem; color: rgba(255,255,255,0.9);">
+          Aplikaciju razvila studentinja ETF-a, DBA stručnjak i Software Developer. Ako želiš saradnju, implementaciju ili prilagođenu integraciju — kontaktiraj me.
+        </p>
+
+        <div class="team-grid" style="margin-top:1rem;">
+           <div class="member">
+            <h4>Teodora Obradović</h4>
+            <p>Software Developer, ex DBA </p>
+            <p>obradovicdora@gmail.com </p>
+          </div>
+         </div>
+      </section>
+
+      <section id="contact" class="section" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">Kontakt i podrška</h2>
+
+        <p style="margin:0 0 0.6rem 0; color: rgba(255,255,255,0.9);">
+          Pošaljite upit na <strong>obradovicdora@gmail.com</strong>. Za hitne slučajeve dostupni smo putem telefona dežurnog administratora.
+        </p>
+
+        <div style="display:flex; gap:.6rem; flex-wrap:wrap;">
+          <a class="btn" href="mailto:obradovicdora@gmail.com">Pošalji email</a>
+          <a class="btn secondary" href="#features">Pogledaj funkcije</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="about-footer" role="contentinfo">
+      © 2025 DBA generalštab — Sva prava zadržava Teodora.
+    </footer>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<div class="app-wrapper p-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="page-title">Dežurstva</h2>
+    <button 
+      *ngIf="isAdmin()" 
+      class="btn-add" 
+      (click)="openModal()">
+      + Dodaj
+    </button>
+  </div>
+
+  <section class="mb-5">
+    <h4 class="table-title">Predstojeća dežurstva</h4>
+    <table class="onduty-table">
+      <thead>
+        <tr>
+          <th>Datum od</th>
+          <th>Datum do</th>
+          <th>Dežurni</th>
+          <th>Postavio</th>
+          <th>Datum unosa</th>
+          <th *ngIf="isAdmin()">Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let d of upcomingDuties" 
+            [class.current-user]="d.dezurni === currentUser">
+          <td>{{ d.datumOd | date:'dd.MM.yyyy' }}</td>
+          <td>{{ d.datumDo | date:'dd.MM.yyyy' }}</td>
+          <td>{{ d.dezurni }}</td>
+          <td>{{ d.postavioKorisnik }}</td>
+          <td>{{ d.datumUnosa | date:'dd.MM.yyyy' }}</td>
+          <td *ngIf="isAdmin()">
+            <button class="btn-delete" (click)="deleteDezurstvo(d)">
+              🗑
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h4 class="table-title">Prošla dežurstva</h4>
+    <table class="onduty-table">
+      <thead>
+        <tr>
+          <th>Datum od</th>
+          <th>Datum do</th>
+          <th>Dežurni</th>
+          <th>Postavio</th>
+          <th>Datum unosa</th>
+          <th *ngIf="isAdmin()">Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let d of pastDuties" 
+            [class.current-user]="d.dezurni === currentUser">
+          <td>{{ d.datumOd | date:'dd.MM.yyyy' }}</td>
+          <td>{{ d.datumDo | date:'dd.MM.yyyy' }}</td>
+          <td>{{ d.dezurni }}</td>
+          <td>{{ d.postavioKorisnik }}</td>
+          <td>{{ d.datumUnosa | date:'dd.MM.yyyy' }}</td>
+          <td *ngIf="isAdmin()">
+            <button class="btn-delete" (click)="deleteDezurstvo(d)">
+              🗑
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="modal-overlay" *ngIf="showModal">
+    <div class="modal-content">
+      <h3>Dodaj novo dežurstvo</h3>
+      
+      <form (ngSubmit)="addDezurstvo()" #dutyForm="ngForm">
+        <div class="form-group">
+          <label for="datumOd">Datum od</label>
+          <input 
+            type="date" 
+            id="datumOd" 
+            [(ngModel)]="newDezurstvo.datumOd" 
+            name="datumOd" 
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="datumDo">Datum do</label>
+          <input 
+            type="date" 
+            id="datumDo" 
+            [(ngModel)]="newDezurstvo.datumDo" 
+            name="datumDo" 
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="dezurni">Dežurni</label>
+          <select 
+            id="dezurni" 
+            [(ngModel)]="newDezurstvo.dezurni" 
+            name="dezurni" 
+            required>
+            <option *ngFor="let u of users" [value]="u.korisnickoIme">{{ u.korisnickoIme }}</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn-add" [disabled]="!dutyForm.valid">Sačuvaj</button>
+          <button type="button" class="btn-cancel" (click)="closeModal()">Otkaži</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

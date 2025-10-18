@@ -1,0 +1,20 @@
+<div class="container py-5">
+
+  <!-- Navigacija za korisnika -->
+  <div class="d-flex justify-content-center gap-4 mb-5">
+    <button class="btn user-btn btn-secondary" (click)="goTo('/user/notifications')">
+      🔔 Obaveštenja
+    </button>
+    <button class="btn user-btn btn-secondary" (click)="goTo('/user/see-request')">
+      📋 Zahtevi
+    </button>
+    <button class="btn user-btn btn-secondary" (click)="goTo('/user/about-me')">
+      👤 O mom nalogu
+    </button>
+  </div>
+
+ <router-outlet></router-outlet>
+
+</div>
+
+
